@@ -26,8 +26,8 @@ email=franka1986@gmail.com
 # tags are comma separated with spaces allowed
 tags=productivity,tool,toolbars,style,work flow,configuration
 
-homepage=http://hub.qgis.org/projects/CustomToolBar
-tracker=http://hub.qgis.org/projects/CustomToolBar/issues
+homepage=http://hub.qgis.org/projects/rt6avc2ia
+tracker=http://hub.qgis.org/projects/rt6avc2ia/issues
 repository=https://github.com/All4Gis/CustomToolBar
 icon=images/icon.png
 
