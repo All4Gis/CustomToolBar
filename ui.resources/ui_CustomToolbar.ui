@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>807</width>
-    <height>404</height>
+    <width>833</width>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,6 +23,82 @@
      <property name="topMargin">
       <number>25</number>
      </property>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>Expand all</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/img/images/expand.png</normaloff>:/img/images/expand.png</iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>Collapse all</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/img/images/collapse.png</normaloff>:/img/images/collapse.png</iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
@@ -271,6 +347,82 @@ padding: 2px;
        </layout>
       </widget>
      </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>Expand all</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/img/images/expand.png</normaloff>:/img/images/expand.png</iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>Collapse all</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/img/images/collapse.png</normaloff>:/img/images/collapse.png</iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
   </layout>
@@ -350,8 +502,8 @@ padding: 2px;
    <slot>DeleteToolBar()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>276</y>
+     <x>471</x>
+     <y>305</y>
     </hint>
     <hint type="destinationlabel">
      <x>433</x>
@@ -366,12 +518,76 @@ padding: 2px;
    <slot>SaveTools()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>382</y>
+     <x>471</x>
+     <y>431</y>
     </hint>
     <hint type="destinationlabel">
      <x>355</x>
      <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CustomToolbarDialog</receiver>
+   <slot>ExpandQgis()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>25</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CustomToolbarDialog</receiver>
+   <slot>CollapseQgis()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>16</x>
+     <y>245</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>263</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>CustomToolbarDialog</receiver>
+   <slot>ExpandMyTools()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>804</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>819</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>CustomToolbarDialog</receiver>
+   <slot>CollapseMyTools()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>811</x>
+     <y>253</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>828</x>
+     <y>275</y>
     </hint>
    </hints>
   </connection>
@@ -388,5 +604,9 @@ padding: 2px;
   <slot>DownItem()</slot>
   <slot>SaveTools()</slot>
   <slot>about()</slot>
+  <slot>ExpandQgis()</slot>
+  <slot>CollapseQgis()</slot>
+  <slot>ExpandMyTools()</slot>
+  <slot>CollapseMyTools()</slot>
  </slots>
 </ui>

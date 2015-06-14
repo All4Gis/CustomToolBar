@@ -48,7 +48,7 @@ class CustomToolbar:
         localePath = os.path.join(self.plugin_dir, 'i18n', 'CustomToolbar_{}.qm'.format(locale))
  
         self.userhome = os.path.expanduser('~')
-        self.filepath=self.userhome + '\.CustomToolBars'
+        self.filepath = self.userhome + '\.CustomToolBars'
         self.file = QFile(self.filepath)
  
         if os.path.exists(localePath):
@@ -64,8 +64,6 @@ class CustomToolbar:
         except Exception as e:
             self.iface.messageBar().pushMessage("Error: ", "Error loading tools ", level=QgsMessageBar.CRITICAL, duration=3)
             None 
-            
-            
 
     def initGui(self):
         self.action = QAction(QIcon(":/img/images/icon.png"), u"Custom ToolBar", self.iface.mainWindow())
@@ -95,7 +93,7 @@ class CustomToolbar:
         self.dlg.exec_()
     
       
-    #Creamos las tool bar al iniciar  
+    # Creamos las toolbar al iniciar Qgis  
     
     def MyToolBars(self):
  
@@ -103,9 +101,9 @@ class CustomToolbar:
         datastream = QtCore.QDataStream(self.file)
         num_childs = datastream.readUInt32()  
         for i in range(0, num_childs):
-            item=QtGui.QTreeWidgetItem()
+            item = QtGui.QTreeWidgetItem()
             item.read(datastream)
-            self.bar=None
+            self.bar = None
             self.DelToolBarIface(item.text(0))
             self.bar = self.iface.mainWindow().addToolBar(item.text(0))
             self.restore_item(datastream, item)
@@ -116,7 +114,7 @@ class CustomToolbar:
     def restore_item(self, datastream, item):
         num_childs = datastream.readUInt32()
         for i in range(0, num_childs):
-            child=QtGui.QTreeWidgetItem()
+            child = QtGui.QTreeWidgetItem()
             child.read(datastream)
             self.bar.addAction(self.obtainAction(child.text(0)))  
             self.restore_item(datastream, child)
@@ -132,12 +130,12 @@ class CustomToolbar:
                     return action
         return
   
-    #Borramos la herramienta
-    def DelToolBarIface(self,value):
+    # Borramos la herramienta
+    def DelToolBarIface(self, value):
         toolbars = self.iface.mainWindow().findChildren(QToolBar)
         for toolbar in toolbars:
             if toolbar.windowTitle() == value:
-                self.iface.mainWindow().removeToolBar( toolbar)
+                self.iface.mainWindow().removeToolBar(toolbar)
                 self.iface.mainWindow().update()
                 toolbar.setParent(None)
         return

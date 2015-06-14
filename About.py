@@ -19,7 +19,6 @@
  *                                                                         *
  ***************************************************************************/
 """
-import os
 import os.path
 
 from PyQt4 import QtCore, QtGui
@@ -27,9 +26,9 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 from gui.generated.About import Ui_About
-import numpy as np
 from qgis.core import *
 from qgis.gui import *
+from qgis.gui import QgsMessageBar
 
 
 try:
@@ -52,5 +51,4 @@ class AboutDialog(QtGui.QDialog, Ui_About):
             os.startfile(self.video, 'open')    
         except:
             self.iface.messageBar().pushMessage("Error: ", "Could not open video file: " + self.video, level=QgsMessageBar.CRITICAL, duration=3) 
- 
         return
