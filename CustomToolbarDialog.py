@@ -19,21 +19,25 @@
  *                                                                         *
  ***************************************************************************/
 """
-import os.path
-
-from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from PyQt4.QtGui import QToolBar
-
-from About import AboutDialog
-from gui.generated.ui_CustomToolbar import Ui_CustomToolbarDialog
+from PyQt4.QtGui import QToolBar, QToolButton, QWidgetAction
+import os.path
 from qgis.core import *
 from qgis.gui import *
 from qgis.gui import QgsMessageBar
 
+from PyQt4 import QtCore, QtGui
+
+from About import AboutDialog
+from gui.generated.ui_CustomToolbar import Ui_CustomToolbarDialog
+
 
 try:
+    from processing.core.Processing import Processing
+    from processing.gui import AlgorithmClassification
+    from processing.gui.AlgorithmDialog import AlgorithmDialog
+    from processing.gui.MessageDialog import MessageDialog
     import sys
     from pydevd import *
 except:
@@ -130,7 +134,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
             event.acceptProposedAction()
             
         self.MyToolsBars.dropEvent = dropEvent
-        
  
     # Obtenemos la profuncidad del item en el arbol
     def depth(self, item):
@@ -165,26 +168,75 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         self.setLayout(layout)
         return
         
-    # Obtenemos las toolbars de qgis
+    # Obtenemos las toolbars de Qgis
     def PopulateQgisTools(self):
         self.ToolBars.clear()
+        # Herramientas de Qgis.
         toolbars = self.iface.mainWindow().findChildren(QToolBar)
         for toolbar in toolbars:
-            a = 0 
             pitems = QtGui.QTreeWidgetItem(self.ToolBars)
             if toolbar.windowTitle() == '':
                 pitems.setText(0, "No Name")
             else:   
                 pitems.setText(0, toolbar.windowTitle())
-            Buttons = toolbar.findChildren(QToolButton)
-            for Button in Buttons:
-                # Eliminamos el primer caracter que no es un boton como tal
-                if a != 0:
+                 
+            actions = toolbar.actions()   
+         
+            for action in actions:
+                if isinstance(action, QWidgetAction):
+                    a = action.defaultWidget().actions()
+                    for b in a:
+                        # Eliminados los valores vacios,como barras decorativas en las toolbar,etc..
+                        if b.text() == "":
+                            continue
+                        citems = QtGui.QTreeWidgetItem(pitems)
+                        citems.setIcon(0, b.icon())
+                        citems.setText(0, b.iconText()) 
+                        citems.setToolTip(0, b.iconText())                      
+                else:
+                    if action.text() == "":
+                        continue
                     citems = QtGui.QTreeWidgetItem(pitems)
-                    citems.setIcon(0, Button.icon())
-                    citems.setText(0, Button.text())
-                a += 1
-        return  
+                    citems.setIcon(0, action.icon())
+                    citems.setText(0, action.iconText())
+                    citems.setToolTip(0, action.iconText()) 
+        
+        # Geoprocesos (Processing ToolBox).
+        groups = {}
+        count = 0
+        try:
+            for providerName in Processing.algs.keys():
+                provider = Processing.algs[providerName]
+                algs = provider.values()
+                if len(algs) > 0:
+                    providerItem = QtGui.QTreeWidgetItem(self.ToolBars)
+                    providerItem.setText(0, providerName)
+                
+                # Anadimos los algoritmos
+                for alg in algs:
+    #                 if not alg.showInToolbox:
+    #                     continue
+                    if alg.group in groups:
+                        groupItem = groups[alg.group]
+                    else:
+                        groupItem = QtGui.QTreeWidgetItem(providerItem)
+                        groupItem.setText(0, alg.group)
+                        groups[alg.group] = groupItem
+                    # settrace()
+                    # name = AlgorithmClassification.getDisplayName(alg)
+                    citems = QtGui.QTreeWidgetItem(groupItem)
+                    citems.setIcon(0, alg.getIcon())
+                    citems.setText(0, alg.name)
+                    citems.setToolTip(0, alg.name) 
+                    groupItem.addChild(citems)
+                    count += 1
+            return  
+        
+        except:
+             self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Toolbox.", level=QgsMessageBar.CRITICAL, duration=3)  
+             None
+
+             
  
     # Gestion de clicks en el listado de herramientas de Qgis.Solo se permite mover las herramientas,no las toolbar
     def QgisToolsClick(self):
@@ -193,11 +245,11 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         self.MyToolsBars.setCurrentItem(None)
         self.rename_btn.setEnabled(False)
         self.delete_btn.setEnabled(False) 
-        if parent is None:
+        if parent is None or item.childCount() > 0:
             self.ToolBars.setDragEnabled(False)
         else:
             self.ToolBars.setDragEnabled(True)
-        return  
+ 
     
     # listado de herramientas del usuario
     def MyToolsClick(self, column):
@@ -281,7 +333,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                 self.MyToolsBars.setEnabled(False)
                 self.rename_btn.setEnabled(False)
                 self.delete_btn.setEnabled(False)
-                #self.Save_btn.setEnabled(False)
+                # self.Save_btn.setEnabled(False)
  
         return
  
@@ -322,16 +374,69 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
  
     # Metodo para obtener la accion del boton y anadirla a la barra nueva
     def obtainAction(self, value):
+        # Barras de herramientas de Qgis
         toolbars = self.iface.mainWindow().findChildren(QToolBar)
         for toolbar in toolbars:
-            Buttons = toolbar.findChildren(QToolButton)
-            for Button in Buttons:
-                if Button.text() == value:
-                    action = Button.defaultAction()
-                    return action
+            actions = toolbar.actions() 
+            for action in actions:
+                if isinstance(action, QWidgetAction):
+                    a = action.defaultWidget().actions()
+                    for b in a:
+                        if b.iconText() == value:
+                            return b
+                else:
+                    if action.iconText() == value:
+                        return action
+                    
+        # Obtencion de la herramienta en el listado de geoprocesos.
+        for providerName in Processing.algs.keys():
+            provider = Processing.algs[providerName]               
+            algs = provider.values()
+            for alg in algs:
+                if value == alg.name:
+                    action = QAction(QIcon(alg.getIcon()), alg.name, self)
+                    action.triggered.connect(lambda:self.executeAlgorithm(alg.name))
+                    return action  
         return  
     
     
+    
+    def executeAlgorithm(self, value):
+ 
+        for providerName in Processing.algs.keys():
+            provider = Processing.algs[providerName]               
+            algs = provider.values()
+            for alg in algs:
+                if value == alg.name:
+                    alg = Processing.getAlgorithm(alg.commandLineName())
+                    message = alg.checkBeforeOpeningParametersDialog()
+                    if message:
+                        dlg = MessageDialog()
+                        dlg.setTitle(self.tr('Missing dependency'))
+                        dlg.setMessage(self.tr('<h3>Missing dependency. This algorithm cannot '
+                                        'be run :-( </h3>\n%s') % message)
+                        dlg.exec_()
+                        return
+                    alg = alg.getCopy()
+                    dlg = alg.getCustomParametersDialog()
+                    if not dlg:
+                        try:
+                            dlg = AlgorithmDialog(alg)
+                        except:
+                            self.iface.messageBar().pushMessage("Info: ", "Error loading Processing Toolbox.", level=QgsMessageBar.INFO, duration=3)  
+                            return
+                            
+                    canvas = self.iface.mapCanvas()
+                    prevMapTool = canvas.mapTool()
+                    dlg.show()
+                    dlg.exec_()
+                    if canvas.mapTool() != prevMapTool:
+                        try:
+                            canvas.mapTool().reset()
+                        except:
+                            pass
+                        canvas.setMapTool(prevMapTool)
+        return
     #####################################################################################
     ################################    Save and Read    ################################
     #####################################################################################
@@ -365,8 +470,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
             self.rename_btn.setEnabled(False)
             self.delete_btn.setEnabled(False) 
             self.restore = {}
-                        
-                                      
+                             
         except:
             self.iface.messageBar().pushMessage("Error: ", "Error save tools ", level=QgsMessageBar.CRITICAL, duration=3) 
         return
@@ -408,10 +512,12 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
             item.addChild(child) 
             self.bar.addAction(self.obtainAction(child.text(0)))  
             self.restore_item(datastream, child)
+ 
     
     #####################################################################################
     ################################         End         ################################
     #####################################################################################
+     
    
     # Herramientas Qgis
     def CollapseQgis(self):

@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'ui.resources\About.ui'
 #
-# Created: Fri Jun 12 23:44:23 2015
-#      by: PyQt4 UI code generator 4.8.3
+# Created: Wed Jul 08 17:10:39 2015
+#      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -15,7 +15,16 @@ import resources_rc
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_About(object):
     def setupUi(self, About):
@@ -44,7 +53,7 @@ class Ui_About(object):
         self.plainTextEdit.setObjectName(_fromUtf8("plainTextEdit"))
         self.pushButton_2 = QtGui.QPushButton(About)
         self.pushButton_2.setGeometry(QtCore.QRect(140, 180, 401, 23))
-        self.pushButton_2.setCursor(QtCore.Qt.PointingHandCursor)
+        self.pushButton_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
 
         self.retranslateUi(About)
@@ -52,13 +61,13 @@ class Ui_About(object):
         QtCore.QMetaObject.connectSlotsByName(About)
 
     def retranslateUi(self, About):
-        About.setWindowTitle(QtGui.QApplication.translate("About", "About", None, QtGui.QApplication.UnicodeUTF8))
-        self.plainTextEdit.setPlainText(QtGui.QApplication.translate("About", "Customize ToolBars\n"
+        About.setWindowTitle(_translate("About", "About", None))
+        self.plainTextEdit.setPlainText(_translate("About", "Customize ToolBars\n"
 "2015-Francisco Raga\n"
 "\n"
 "\n"
 "This plugin allows to create personalized tools, with the buttons the user desires. It is only necessary dragging from the list on the left and dropping in the list on the right, the tools that the user desires to add to any of the previously created toolbars.\n"
 "\n"
-"In order to ease the use of this plugin, a video with a brief example is attached.", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_2.setText(QtGui.QApplication.translate("About", "Show Video example", None, QtGui.QApplication.UnicodeUTF8))
+"In order to ease the use of this plugin, a video with a brief example is attached.", None))
+        self.pushButton_2.setText(_translate("About", "Show Video example", None))
 

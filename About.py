@@ -19,16 +19,16 @@
  *                                                                         *
  ***************************************************************************/
 """
-import os.path
-
-from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-
-from gui.generated.About import Ui_About
+import os.path
 from qgis.core import *
 from qgis.gui import *
 from qgis.gui import QgsMessageBar
+
+from PyQt4 import QtCore, QtGui
+
+from gui.generated.About import Ui_About
 
 
 try:

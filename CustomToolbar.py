@@ -19,20 +19,25 @@
  *                                                                         *
  ***************************************************************************/
 """
-import os.path
-
-from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from PyQt4.QtGui import QToolBar, QToolButton, QWidgetAction
+import os.path
+from qgis.core import *
+from qgis.gui import QgsMessageBar
+
+from PyQt4 import QtCore, QtGui
 
 from About import AboutDialog
 from CustomToolbarDialog import CustomToolbarDialog
 import gui.generated.resources_rc
-from qgis.core import *
-from qgis.gui import QgsMessageBar
+from qgis.utils import loadPlugin, startPlugin
 
 
 try:
+    from processing.core.Processing import Processing
+    from processing.gui.AlgorithmDialog import AlgorithmDialog
+    from processing.gui.MessageDialog import MessageDialog
     import sys
     from pydevd import *
 except:
@@ -60,8 +65,15 @@ class CustomToolbar:
                 
         # Activamos las herramientas creadas.
         try:
+            loadPlugin('processing')
+            startPlugin('processing')
+        except:
+            self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Toolbox.", level=QgsMessageBar.CRITICAL, duration=3)
+            None 
+            
+        try:
             self.MyToolBars()
-        except Exception as e:
+        except:
             self.iface.messageBar().pushMessage("Error: ", "Error loading tools ", level=QgsMessageBar.CRITICAL, duration=3)
             None 
 
@@ -119,17 +131,73 @@ class CustomToolbar:
             self.bar.addAction(self.obtainAction(child.text(0)))  
             self.restore_item(datastream, child)
         
-    # Obtenemos la accion del boton y anadirla a la barra nueva
+    # Metodo para obtener la accion del boton y anadirla a la barra nueva
     def obtainAction(self, value):
+        # Barras de herramientas de Qgis
         toolbars = self.iface.mainWindow().findChildren(QToolBar)
         for toolbar in toolbars:
-            Buttons = toolbar.findChildren(QToolButton)
-            for Button in Buttons:
-                if Button.text() == value:
-                    action = Button.defaultAction()
-                    return action
+            actions = toolbar.actions() 
+            for action in actions:
+                if isinstance(action, QWidgetAction):
+                    a = action.defaultWidget().actions()
+                    for b in a:
+                        if b.iconText() == value:
+                            return b
+                else:
+                    if action.iconText() == value:
+                        return action
+          
+        # settrace()          
+        # Obtencion de la herramienta en el listado de geoprocesos.
+        try:
+            for providerName in Processing.algs.keys():
+                provider = Processing.algs[providerName]               
+                algs = provider.values()
+                for alg in algs:
+                    if value == alg.name:
+                        action = QAction(QIcon(alg.getIcon()), alg.name, self.iface.mainWindow())
+                        action.triggered.connect(lambda:self.executeAlgorithm(alg.name))
+                        return action  
+            return  
+        except:
+            self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Toolbox.", level=QgsMessageBar.CRITICAL, duration=3)  
+            return
+
+    def executeAlgorithm(self, value):
+        
+        for providerName in Processing.algs.keys():
+            provider = Processing.algs[providerName]               
+            algs = provider.values()
+            for alg in algs:
+                if value == alg.name:
+                    alg = Processing.getAlgorithm(alg.commandLineName())
+                    message = alg.checkBeforeOpeningParametersDialog()
+                    if message:
+                        dlg = MessageDialog()
+                        dlg.setTitle(self.tr('Missing dependency'))
+                        dlg.setMessage(self.tr('<h3>Missing dependency. This algorithm cannot '
+                                        'be run :-( </h3>\n%s') % message)
+                        dlg.exec_()
+                        return
+                    alg = alg.getCopy()
+                    dlg = alg.getCustomParametersDialog()
+                    if not dlg:
+                        try:
+                            dlg = AlgorithmDialog(alg)
+                        except:
+                            self.iface.messageBar().pushMessage("Info: ", "Error loading Processing Algorithm.", level=QgsMessageBar.INFO, duration=3)  
+                            pass
+                    canvas = self.iface.mapCanvas()
+                    prevMapTool = canvas.mapTool()
+                    dlg.show()
+                    dlg.exec_()
+                    if canvas.mapTool() != prevMapTool:
+                        try:
+                            canvas.mapTool().reset()
+                        except:
+                            pass
+                        canvas.setMapTool(prevMapTool)
         return
-  
     # Borramos la herramienta
     def DelToolBarIface(self, value):
         toolbars = self.iface.mainWindow().findChildren(QToolBar)

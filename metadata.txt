@@ -13,7 +13,7 @@ name=Customize ToolBars
 qgisMinimumVersion=2.2
 description=Create customs Toolbars for Qgis.
 about=This plugin allows to create personalized tools, with the buttons the user desires. It is only necessary dragging from the list on the left and dropping in the list on the right, the tools that the user desires to add to any of the previously created toolbars.
-version=0.1
+version=0.2
 author=Francisco Raga Lopez
 email=franka1986@gmail.com
 
@@ -24,15 +24,11 @@ email=franka1986@gmail.com
 # Uncomment the following line and add your changelog entries:
 changelog=    
 	** General **
-    - Added new buttons (Expand all and Collapse all).
-    - Added missing data in "metadata.txt".
-    - Restored visibility tools when change/save toolbars.
-    - Save expand state and restored in Qgis toolbars list.
-    - Minor changes.
+    - Obtain missing Qgis Actions.
+    - Add Processing Toolbox actions.
  
-
 # tags are comma separated with spaces allowed
-tags=productivity,tool,toolbars,style,work flow,configuration
+tags=productivity,tool,toolbars,style,work flow,configuration,processing
 
 homepage=http://hub.qgis.org/projects/rt6avc2ia
 tracker=http://hub.qgis.org/projects/rt6avc2ia/issues
