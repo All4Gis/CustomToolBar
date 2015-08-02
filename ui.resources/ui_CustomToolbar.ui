@@ -17,6 +17,9 @@
    <iconset resource="resources.qrc">
     <normaloff>:/img/images/icon.png</normaloff>:/img/images/icon.png</iconset>
   </property>
+  <property name="accessibleDescription">
+   <string/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -110,7 +113,14 @@
        <property name="flat">
         <bool>true</bool>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QgsFilterLineEdit" name="searchBox">
+          <property name="toolTip">
+           <string>Enter algorithm name to filter list</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QTreeWidget" name="ToolBars">
           <property name="dragEnabled">
@@ -304,7 +314,7 @@ padding: 2px;
        <property name="flat">
         <bool>true</bool>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QTreeWidget" name="MyToolsBars">
           <property name="enabled">
@@ -363,7 +373,10 @@ padding: 2px;
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="My_expand">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
@@ -386,7 +399,10 @@ padding: 2px;
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="My_Collapse">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
@@ -427,6 +443,13 @@ padding: 2px;
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsFilterLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qgis.gui</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>
@@ -560,7 +583,7 @@ padding: 2px;
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_3</sender>
+   <sender>My_expand</sender>
    <signal>clicked()</signal>
    <receiver>CustomToolbarDialog</receiver>
    <slot>ExpandMyTools()</slot>
@@ -576,7 +599,7 @@ padding: 2px;
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_4</sender>
+   <sender>My_Collapse</sender>
    <signal>clicked()</signal>
    <receiver>CustomToolbarDialog</receiver>
    <slot>CollapseMyTools()</slot>
@@ -588,6 +611,22 @@ padding: 2px;
     <hint type="destinationlabel">
      <x>828</x>
      <y>275</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchBox</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>CustomToolbarDialog</receiver>
+   <slot>Search(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>74</x>
+     <y>73</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>111</x>
+     <y>3</y>
     </hint>
    </hints>
   </connection>
@@ -608,5 +647,6 @@ padding: 2px;
   <slot>CollapseQgis()</slot>
   <slot>ExpandMyTools()</slot>
   <slot>CollapseMyTools()</slot>
+  <slot>Search(QString)</slot>
  </slots>
 </ui>

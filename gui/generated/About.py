@@ -2,13 +2,12 @@
 
 # Form implementation generated from reading ui file 'ui.resources\About.ui'
 #
-# Created: Wed Jul 08 17:10:39 2015
+# Created: Sun Jul 26 13:24:15 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-
 import resources_rc
 
 

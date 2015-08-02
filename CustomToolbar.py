@@ -19,19 +19,18 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4.QtGui import QToolBar, QToolButton, QWidgetAction
 import os.path
-from qgis.core import *
-from qgis.gui import QgsMessageBar
-
-from PyQt4 import QtCore, QtGui
 
 from About import AboutDialog
 from CustomToolbarDialog import CustomToolbarDialog
+from PyQt4 import QtCore, QtGui
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from PyQt4.QtGui import QToolBar, QToolButton, QWidgetAction
 import gui.generated.resources_rc
-from qgis.utils import loadPlugin, startPlugin
+from qgis.core import *
+from qgis.gui import QgsMessageBar
+from qgis.utils import loadPlugin, startPlugin 
 
 
 try:
@@ -146,8 +145,7 @@ class CustomToolbar:
                 else:
                     if action.iconText() == value:
                         return action
-          
-        # settrace()          
+         
         # Obtencion de la herramienta en el listado de geoprocesos.
         try:
             for providerName in Processing.algs.keys():
@@ -170,8 +168,12 @@ class CustomToolbar:
             algs = provider.values()
             for alg in algs:
                 if value == alg.name:
-                    alg = Processing.getAlgorithm(alg.commandLineName())
-                    message = alg.checkBeforeOpeningParametersDialog()
+                    try:
+                        alg = Processing.getAlgorithm(alg.commandLineName())
+                        message = alg.checkBeforeOpeningParametersDialog()
+                    except:
+                        self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Algorithm.", level=QgsMessageBar.CRITICAL, duration=3)  
+                        return
                     if message:
                         dlg = MessageDialog()
                         dlg.setTitle(self.tr('Missing dependency'))
@@ -186,7 +188,7 @@ class CustomToolbar:
                             dlg = AlgorithmDialog(alg)
                         except:
                             self.iface.messageBar().pushMessage("Info: ", "Error loading Processing Algorithm.", level=QgsMessageBar.INFO, duration=3)  
-                            pass
+                            return
                     canvas = self.iface.mapCanvas()
                     prevMapTool = canvas.mapTool()
                     dlg.show()

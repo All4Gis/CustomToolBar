@@ -32,7 +32,6 @@ from PyQt4 import QtCore, QtGui
 from About import AboutDialog
 from gui.generated.ui_CustomToolbar import Ui_CustomToolbarDialog
 
-
 try:
     from processing.core.Processing import Processing
     from processing.gui import AlgorithmClassification
@@ -54,6 +53,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         self.userhome = os.path.expanduser('~')
         self.filepath = self.userhome + '\.CustomToolBars'
         self.file = QtCore.QFile(self.filepath)
+        self.searchBox.setPlaceholderText('Search...')
         
         self.restore = {}
  
@@ -61,7 +61,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
   
         try:
             self.listMyToolBars()  # Herramientas Usuario
-        
+         
         except Exception as e:
             self.iface.messageBar().pushMessage("Error: ", "Error loading tools ", level=QgsMessageBar.CRITICAL, duration=3)
             None 
@@ -167,6 +167,32 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         layout.addStretch(0)
         self.setLayout(layout)
         return
+    
+    #Filtrado de las acciones en las herramientas de Qgis.
+    def Search(self,text):
+        self.filterItem(self.ToolBars.invisibleRootItem(), text)
+        if text:
+            self.ToolBars.expandAll()
+        else:
+            self.ToolBars.collapseAll() 
+        return
+    
+    def filterItem(self, item, text):
+        if (item.childCount() > 0):
+            show = False
+            for i in xrange(item.childCount()):
+                child = item.child(i)
+                showChild = self.filterItem(child, text)
+                show = showChild or show
+            item.setHidden(not show)
+            return show
+        elif isinstance(item, (QTreeWidgetItem)):
+            hide = bool(text) and (text not in item.text(0).lower())
+            item.setHidden(hide)
+            return not hide
+        else:
+            item.setHidden(True)
+            return False
         
     # Obtenemos las toolbars de Qgis
     def PopulateQgisTools(self):
@@ -214,16 +240,12 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                 
                 # Anadimos los algoritmos
                 for alg in algs:
-    #                 if not alg.showInToolbox:
-    #                     continue
                     if alg.group in groups:
                         groupItem = groups[alg.group]
                     else:
                         groupItem = QtGui.QTreeWidgetItem(providerItem)
                         groupItem.setText(0, alg.group)
                         groups[alg.group] = groupItem
-                    # settrace()
-                    # name = AlgorithmClassification.getDisplayName(alg)
                     citems = QtGui.QTreeWidgetItem(groupItem)
                     citems.setIcon(0, alg.getIcon())
                     citems.setText(0, alg.name)
@@ -277,6 +299,8 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
             new_toolbar.setText(0, text)
             self.MyToolsBars.invisibleRootItem().addChild(new_toolbar)
             self.MyToolsBars.setEnabled(True)
+            self.My_expand.setEnabled(True)
+            self.My_Collapse.setEnabled(True)
             self.Save_btn.setEnabled(True)
             self.hasChanged = True
         return
@@ -333,8 +357,9 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                 self.MyToolsBars.setEnabled(False)
                 self.rename_btn.setEnabled(False)
                 self.delete_btn.setEnabled(False)
-                # self.Save_btn.setEnabled(False)
- 
+                self.My_expand.setEnabled(False)
+                self.My_Collapse.setEnabled(False)
+                 
         return
  
  
@@ -495,10 +520,10 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         num_childs = datastream.readUInt32()
         for i in range(0, num_childs):
             self.MyToolsBars.setEnabled(True)
+            self.My_expand.setEnabled(True)
+            self.My_Collapse.setEnabled(True)
             item = QtGui.QTreeWidgetItem()
             item.read(datastream)
-            self.bar = None
-            self.CreateToolBar(item)
             self.MyToolsBars.insertTopLevelItem(i, item)
             self.restore_item(datastream, item)
         self.file.close()
@@ -510,7 +535,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
             child = QtGui.QTreeWidgetItem()
             child.read(datastream)
             item.addChild(child) 
-            self.bar.addAction(self.obtainAction(child.text(0)))  
             self.restore_item(datastream, child)
  
     
