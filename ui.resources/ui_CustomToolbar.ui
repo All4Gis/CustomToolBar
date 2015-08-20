@@ -123,6 +123,9 @@
         </item>
         <item>
          <widget class="QTreeWidget" name="ToolBars">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="dragEnabled">
            <bool>true</bool>
           </property>
@@ -153,6 +156,9 @@
           <property name="wordWrap">
            <bool>false</bool>
           </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
           <attribute name="headerShowSortIndicator" stdset="0">
            <bool>false</bool>
           </attribute>
@@ -161,7 +167,7 @@
           </attribute>
           <column>
            <property name="text">
-            <string notr="true">ToolBars</string>
+            <string notr="true"/>
            </property>
           </column>
          </widget>
@@ -320,6 +326,9 @@ padding: 2px;
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="dragEnabled">
            <bool>false</bool>
           </property>
@@ -347,9 +356,12 @@ padding: 2px;
           <property name="itemsExpandable">
            <bool>true</bool>
           </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
           <column>
            <property name="text">
-            <string>ToolBars</string>
+            <string/>
            </property>
           </column>
          </widget>

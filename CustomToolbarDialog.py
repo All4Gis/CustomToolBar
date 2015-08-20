@@ -19,18 +19,18 @@
  *                                                                         *
  ***************************************************************************/
 """
+import os.path
+
+from About import AboutDialog
+from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from PyQt4.QtGui import QToolBar, QToolButton, QWidgetAction
-import os.path
-from qgis.core import *
+from PyQt4.QtGui import QToolBar, QMenu, QMenuBar, QToolButton, QWidgetAction
+from gui.generated.ui_CustomToolbar import Ui_CustomToolbarDialog
+from qgis.core   import QgsApplication
 from qgis.gui import *
 from qgis.gui import QgsMessageBar
 
-from PyQt4 import QtCore, QtGui
-
-from About import AboutDialog
-from gui.generated.ui_CustomToolbar import Ui_CustomToolbarDialog
 
 try:
     from processing.core.Processing import Processing
@@ -61,13 +61,12 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
   
         try:
             self.listMyToolBars()  # Herramientas Usuario
-         
-        except Exception as e:
+            self.PopulateQgisTools()  # Herramientas Qgis  
+        except:
             self.iface.messageBar().pushMessage("Error: ", "Error loading tools ", level=QgsMessageBar.CRITICAL, duration=3)
             None 
  
-        self.PopulateQgisTools()  # Herramientas Qgis
-         
+      
         if self.MyToolsBars.isEnabled() == False:
             self.Save_btn.setEnabled(False)
  
@@ -146,7 +145,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
     # Dialogo de ayuda
     def about(self):
         self.About = AboutDialog(self.iface)
-        self.About.show()
         self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
         return
@@ -168,8 +166,8 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         self.setLayout(layout)
         return
     
-    #Filtrado de las acciones en las herramientas de Qgis.
-    def Search(self,text):
+    # Filtrado de las acciones en las herramientas de Qgis.
+    def Search(self, text):
         self.filterItem(self.ToolBars.invisibleRootItem(), text)
         if text:
             self.ToolBars.expandAll()
@@ -199,16 +197,19 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         self.ToolBars.clear()
         # Herramientas de Qgis.
         toolbars = self.iface.mainWindow().findChildren(QToolBar)
+        topitem = QtGui.QTreeWidgetItem(self.ToolBars)
+        topitem.setText(0, "ToolBars") 
         for toolbar in toolbars:
-            pitems = QtGui.QTreeWidgetItem(self.ToolBars)
+            pitems = QtGui.QTreeWidgetItem(topitem)
             if toolbar.windowTitle() == '':
                 pitems.setText(0, "No Name")
             else:   
                 pitems.setText(0, toolbar.windowTitle())
                  
             actions = toolbar.actions()   
-         
+   
             for action in actions:
+     
                 if isinstance(action, QWidgetAction):
                     a = action.defaultWidget().actions()
                     for b in a:
@@ -226,16 +227,26 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                     citems.setIcon(0, action.icon())
                     citems.setText(0, action.iconText())
                     citems.setToolTip(0, action.iconText()) 
+                    
+        #Acciones de los menus
+        menubar = self.iface.mainWindow().menuBar() 
+        topitem = QtGui.QTreeWidgetItem(self.ToolBars)
+        topitem.setText(0, "Menus") 
+        for action in menubar.actions():
+            self.addTreeItemMenu(parentItem=topitem,action=action)
+ 
         
         # Geoprocesos (Processing ToolBox).
         groups = {}
         count = 0
         try:
+            topitem = QtGui.QTreeWidgetItem(self.ToolBars)
+            topitem.setText(0, "Processing Algorithms") 
             for providerName in Processing.algs.keys():
                 provider = Processing.algs[providerName]
                 algs = provider.values()
                 if len(algs) > 0:
-                    providerItem = QtGui.QTreeWidgetItem(self.ToolBars)
+                    providerItem = QtGui.QTreeWidgetItem(topitem)
                     providerItem.setText(0, providerName)
                 
                 # Anadimos los algoritmos
@@ -255,10 +266,43 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
             return  
         
         except:
-             self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Toolbox.", level=QgsMessageBar.CRITICAL, duration=3)  
-             None
+            self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Toolbox.", level=QgsMessageBar.CRITICAL, duration=3)  
+            None
 
-             
+ 
+    def addTreeItemMenu(self, parentItem=None, action=None):
+        if action.inherits("QMenu"):
+            citems = QtGui.QTreeWidgetItem(parentItem) 
+            citems.setIcon(0, action.icon())
+            citems.setText(0, action.title().replace("&", ""))
+            citems.setToolTip(0, action.title().replace("&", "")) 
+ 
+        if action.inherits("QAction"):
+            citems = QtGui.QTreeWidgetItem(parentItem) 
+            citems.setIcon(0, action.icon())
+            citems.setText(0, action.iconText())
+            citems.setToolTip(0, action.iconText()) 
+        try:
+            if  action.menu(): 
+                self.addTreeItemActions(citems, action.menu().actions())
+        except:
+            self.addTreeItemActions(citems, action.actions())
+ 
+            
+        
+    def addTreeItemActions(self, parentItem, actions):
+        for action in actions:
+            if  action.isSeparator():
+                continue;
+                    
+            if  action.menu(): 
+                self.addTreeItemMenu(parentItem, action.menu());
+
+            else:
+                citems = QtGui.QTreeWidgetItem(parentItem)
+                citems.setIcon(0, action.icon())
+                citems.setText(0, action.iconText()) 
+                citems.setToolTip(0, action.iconText()) 
  
     # Gestion de clicks en el listado de herramientas de Qgis.Solo se permite mover las herramientas,no las toolbar
     def QgisToolsClick(self):
@@ -412,7 +456,25 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                 else:
                     if action.iconText() == value:
                         return action
+         
+        #Acciones de los menus
+        menubar = self.iface.mainWindow().menuBar()
+        #settrace()
+        for action in menubar.actions():
+            if action.menu():
+                for action in action.menu().actions():
+                    if action.menu():
+                        for actions in action.menu().actions():
+                            if actions.iconText() == value:
+                                return actions  
+                    else:  
+                        if action.iconText() == value:
+                            return action 
+            else:
+                if action.iconText() == value:
+                    return action
                     
+    
         # Obtencion de la herramienta en el listado de geoprocesos.
         for providerName in Processing.algs.keys():
             provider = Processing.algs[providerName]               
@@ -424,8 +486,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                     return action  
         return  
     
-    
-    
+
     def executeAlgorithm(self, value):
  
         for providerName in Processing.algs.keys():
@@ -442,7 +503,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                                         'be run :-( </h3>\n%s') % message)
                         dlg.exec_()
                         return
-                    alg = alg.getCopy()
                     dlg = alg.getCustomParametersDialog()
                     if not dlg:
                         try:
@@ -453,7 +513,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                             
                     canvas = self.iface.mapCanvas()
                     prevMapTool = canvas.mapTool()
-                    dlg.show()
                     dlg.exec_()
                     if canvas.mapTool() != prevMapTool:
                         try:

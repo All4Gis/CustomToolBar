@@ -5,8 +5,8 @@ import sys
 
 
 try:
-    sys.path.append("C:/eclipse/plugins/org.python.pydev_4.0.0.201504132356/pysrc")
-    sys.path.append("C:/eclipse/plugins/org.python.pydev_3.6.0.201406232321/pysrc")
+    sys.path.append("C:/eclipse/plugins/org.python.pydev_4.2.0.201507041133/pysrc")
+    #sys.path.append("C:/eclipse/plugins/org.python.pydev_3.6.0.201406232321/pysrc")
 except:
     None
     

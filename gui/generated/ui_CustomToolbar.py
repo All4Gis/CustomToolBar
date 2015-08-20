@@ -2,29 +2,17 @@
 
 # Form implementation generated from reading ui file 'ui.resources\ui_CustomToolbar.ui'
 #
-# Created: Sun Jul 26 13:24:14 2015
-#      by: PyQt4 UI code generator 4.11.3
+# Created: Wed Aug 19 11:49:01 2015
+#      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-from qgis.gui import QgsFilterLineEdit
-import resources_rc
-
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_CustomToolbarDialog(object):
     def setupUi(self, CustomToolbarDialog):
@@ -44,7 +32,7 @@ class Ui_CustomToolbarDialog(object):
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_6.addItem(spacerItem)
         self.pushButton = QtGui.QPushButton(CustomToolbarDialog)
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton.setCursor(QtCore.Qt.PointingHandCursor)
         self.pushButton.setText(_fromUtf8(""))
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/img/images/expand.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -54,7 +42,7 @@ class Ui_CustomToolbarDialog(object):
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.verticalLayout_6.addWidget(self.pushButton)
         self.pushButton_2 = QtGui.QPushButton(CustomToolbarDialog)
-        self.pushButton_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_2.setCursor(QtCore.Qt.PointingHandCursor)
         self.pushButton_2.setText(_fromUtf8(""))
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/img/images/collapse.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -76,6 +64,7 @@ class Ui_CustomToolbarDialog(object):
         self.searchBox.setObjectName(_fromUtf8("searchBox"))
         self.verticalLayout_4.addWidget(self.searchBox)
         self.ToolBars = QtGui.QTreeWidget(self.groupBox)
+        self.ToolBars.setStyleSheet(_fromUtf8(""))
         self.ToolBars.setDragEnabled(True)
         self.ToolBars.setDragDropOverwriteMode(False)
         self.ToolBars.setDragDropMode(QtGui.QAbstractItemView.DragOnly)
@@ -86,7 +75,7 @@ class Ui_CustomToolbarDialog(object):
         self.ToolBars.setAllColumnsShowFocus(False)
         self.ToolBars.setWordWrap(False)
         self.ToolBars.setObjectName(_fromUtf8("ToolBars"))
-        self.ToolBars.headerItem().setText(0, _fromUtf8("ToolBars"))
+        self.ToolBars.header().setVisible(False)
         self.ToolBars.header().setSortIndicatorShown(False)
         self.ToolBars.header().setStretchLastSection(True)
         self.verticalLayout_4.addWidget(self.ToolBars)
@@ -96,7 +85,7 @@ class Ui_CustomToolbarDialog(object):
         spacerItem2 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem2)
         self.new_btn = QtGui.QPushButton(CustomToolbarDialog)
-        self.new_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.new_btn.setCursor(QtCore.Qt.PointingHandCursor)
         self.new_btn.setStyleSheet(_fromUtf8("border:1px solid #6E6E6E;\n"
 "border-style: outset;\n"
 "border-width: 1px;\n"
@@ -109,7 +98,7 @@ class Ui_CustomToolbarDialog(object):
         self.verticalLayout.addWidget(self.new_btn)
         self.rename_btn = QtGui.QPushButton(CustomToolbarDialog)
         self.rename_btn.setEnabled(False)
-        self.rename_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.rename_btn.setCursor(QtCore.Qt.PointingHandCursor)
         self.rename_btn.setStyleSheet(_fromUtf8("border:1px solid #6E6E6E;\n"
 "border-style: outset;\n"
 "border-width: 1px;\n"
@@ -123,7 +112,7 @@ class Ui_CustomToolbarDialog(object):
         self.verticalLayout.addItem(spacerItem3)
         self.delete_btn = QtGui.QPushButton(CustomToolbarDialog)
         self.delete_btn.setEnabled(False)
-        self.delete_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.delete_btn.setCursor(QtCore.Qt.PointingHandCursor)
         self.delete_btn.setStyleSheet(_fromUtf8("border:1px solid #6E6E6E;\n"
 "border-style: outset;\n"
 "border-width: 1px;\n"
@@ -136,7 +125,7 @@ class Ui_CustomToolbarDialog(object):
         spacerItem4 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem4)
         self.Save_btn = QtGui.QPushButton(CustomToolbarDialog)
-        self.Save_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.Save_btn.setCursor(QtCore.Qt.PointingHandCursor)
         self.Save_btn.setStyleSheet(_fromUtf8("border:1px solid #6E6E6E;\n"
 "border-style: outset;\n"
 "border-width: 1px;\n"
@@ -155,6 +144,7 @@ class Ui_CustomToolbarDialog(object):
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
         self.MyToolsBars = QtGui.QTreeWidget(self.groupBox_2)
         self.MyToolsBars.setEnabled(False)
+        self.MyToolsBars.setStyleSheet(_fromUtf8(""))
         self.MyToolsBars.setDragEnabled(False)
         self.MyToolsBars.setDragDropOverwriteMode(False)
         self.MyToolsBars.setDragDropMode(QtGui.QAbstractItemView.DragDrop)
@@ -165,6 +155,7 @@ class Ui_CustomToolbarDialog(object):
         self.MyToolsBars.setRootIsDecorated(True)
         self.MyToolsBars.setItemsExpandable(True)
         self.MyToolsBars.setObjectName(_fromUtf8("MyToolsBars"))
+        self.MyToolsBars.header().setVisible(False)
         self.verticalLayout_3.addWidget(self.MyToolsBars)
         self.horizontalLayout_4.addWidget(self.groupBox_2)
         self.verticalLayout_8 = QtGui.QVBoxLayout()
@@ -173,7 +164,7 @@ class Ui_CustomToolbarDialog(object):
         self.verticalLayout_8.addItem(spacerItem5)
         self.My_expand = QtGui.QPushButton(CustomToolbarDialog)
         self.My_expand.setEnabled(False)
-        self.My_expand.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.My_expand.setCursor(QtCore.Qt.PointingHandCursor)
         self.My_expand.setText(_fromUtf8(""))
         self.My_expand.setIcon(icon1)
         self.My_expand.setAutoDefault(False)
@@ -182,7 +173,7 @@ class Ui_CustomToolbarDialog(object):
         self.verticalLayout_8.addWidget(self.My_expand)
         self.My_Collapse = QtGui.QPushButton(CustomToolbarDialog)
         self.My_Collapse.setEnabled(False)
-        self.My_Collapse.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.My_Collapse.setCursor(QtCore.Qt.PointingHandCursor)
         self.My_Collapse.setText(_fromUtf8(""))
         self.My_Collapse.setIcon(icon2)
         self.My_Collapse.setAutoDefault(False)
@@ -209,18 +200,19 @@ class Ui_CustomToolbarDialog(object):
         QtCore.QMetaObject.connectSlotsByName(CustomToolbarDialog)
 
     def retranslateUi(self, CustomToolbarDialog):
-        CustomToolbarDialog.setWindowTitle(_translate("CustomToolbarDialog", "Create customs ToolBars", None))
-        self.pushButton.setToolTip(_translate("CustomToolbarDialog", "Expand all", None))
-        self.pushButton_2.setToolTip(_translate("CustomToolbarDialog", "Collapse all", None))
-        self.groupBox.setTitle(_translate("CustomToolbarDialog", "Qgis Tools", None))
-        self.searchBox.setToolTip(_translate("CustomToolbarDialog", "Enter algorithm name to filter list", None))
+        CustomToolbarDialog.setWindowTitle(QtGui.QApplication.translate("CustomToolbarDialog", "Create customs ToolBars", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setToolTip(QtGui.QApplication.translate("CustomToolbarDialog", "Expand all", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_2.setToolTip(QtGui.QApplication.translate("CustomToolbarDialog", "Collapse all", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setTitle(QtGui.QApplication.translate("CustomToolbarDialog", "Qgis Tools", None, QtGui.QApplication.UnicodeUTF8))
+        self.searchBox.setToolTip(QtGui.QApplication.translate("CustomToolbarDialog", "Enter algorithm name to filter list", None, QtGui.QApplication.UnicodeUTF8))
         self.ToolBars.setSortingEnabled(False)
-        self.new_btn.setText(_translate("CustomToolbarDialog", "New ToolBar", None))
-        self.rename_btn.setText(_translate("CustomToolbarDialog", "Rename ToolBar", None))
-        self.delete_btn.setText(_translate("CustomToolbarDialog", "Delete ToolBar or Tool", None))
-        self.Save_btn.setText(_translate("CustomToolbarDialog", "Save Changes", None))
-        self.groupBox_2.setTitle(_translate("CustomToolbarDialog", "My ToolBars", None))
-        self.MyToolsBars.headerItem().setText(0, _translate("CustomToolbarDialog", "ToolBars", None))
-        self.My_expand.setToolTip(_translate("CustomToolbarDialog", "Expand all", None))
-        self.My_Collapse.setToolTip(_translate("CustomToolbarDialog", "Collapse all", None))
+        self.new_btn.setText(QtGui.QApplication.translate("CustomToolbarDialog", "New ToolBar", None, QtGui.QApplication.UnicodeUTF8))
+        self.rename_btn.setText(QtGui.QApplication.translate("CustomToolbarDialog", "Rename ToolBar", None, QtGui.QApplication.UnicodeUTF8))
+        self.delete_btn.setText(QtGui.QApplication.translate("CustomToolbarDialog", "Delete ToolBar or Tool", None, QtGui.QApplication.UnicodeUTF8))
+        self.Save_btn.setText(QtGui.QApplication.translate("CustomToolbarDialog", "Save Changes", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("CustomToolbarDialog", "My ToolBars", None, QtGui.QApplication.UnicodeUTF8))
+        self.My_expand.setToolTip(QtGui.QApplication.translate("CustomToolbarDialog", "Expand all", None, QtGui.QApplication.UnicodeUTF8))
+        self.My_Collapse.setToolTip(QtGui.QApplication.translate("CustomToolbarDialog", "Collapse all", None, QtGui.QApplication.UnicodeUTF8))
 
+from qgis.gui import QgsFilterLineEdit
+import resources_rc

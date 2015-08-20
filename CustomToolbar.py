@@ -63,13 +63,22 @@ class CustomToolbar:
                 QCoreApplication.installTranslator(self.translator)
                 
         # Activamos las herramientas creadas.
+        # El orden de carga de los plugin random
         try:
             loadPlugin('processing')
             startPlugin('processing')
+
         except:
             self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Toolbox.", level=QgsMessageBar.CRITICAL, duration=3)
             None 
             
+        try:
+            loadPlugin('mmqgis')
+            startPlugin('mmqgis')
+        except:
+            self.iface.messageBar().pushMessage("Error: ", "Error loading mmqgis.", level=QgsMessageBar.CRITICAL, duration=3)
+            None 
+              
         try:
             self.MyToolBars()
         except:
@@ -77,19 +86,19 @@ class CustomToolbar:
             None 
 
     def initGui(self):
-        self.action = QAction(QIcon(":/img/images/icon.png"), u"Custom ToolBar", self.iface.mainWindow())
+        self.action = QAction(QIcon(":/img/images/icon.png"), u"Customize ToolBars", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)
-        self.iface.addPluginToMenu(u"&Custom ToolBar", self.action)
+        self.iface.addPluginToMenu(u"&Customize ToolBars", self.action)
        
         self.actionAbout = QAction(QIcon(":/img/images/info.png"), u"About", self.iface.mainWindow())
-        self.iface.addPluginToMenu(u"&Custom ToolBar", self.actionAbout)
+        self.iface.addPluginToMenu(u"&Customize ToolBars", self.actionAbout)
         self.actionAbout.triggered.connect(self.About)
 
 
     def unload(self):
-        self.iface.removePluginMenu(u"&Custom ToolBar", self.action)
-        self.iface.removePluginMenu(u"&Custom ToolBar", self.actionAbout)
+        self.iface.removePluginMenu(u"&Customize ToolBars", self.action)
+        self.iface.removePluginMenu(u"&Customize ToolBars", self.actionAbout)
         self.iface.removeToolBarIcon(self.action)
 
     def About(self):
@@ -145,7 +154,24 @@ class CustomToolbar:
                 else:
                     if action.iconText() == value:
                         return action
-         
+
+        #Acciones de los menus
+        menubar = self.iface.mainWindow().menuBar()
+        #settrace()
+        for action in menubar.actions():
+            if action.menu():
+                for action in action.menu().actions():
+                    if action.menu():
+                        for actions in action.menu().actions():
+                            if actions.iconText() == value:
+                                return actions  
+                    else:  
+                        if action.iconText() == value:
+                            return action 
+            else:
+                if action.iconText() == value:
+                    return action
+                        
         # Obtencion de la herramienta en el listado de geoprocesos.
         try:
             for providerName in Processing.algs.keys():
@@ -191,7 +217,6 @@ class CustomToolbar:
                             return
                     canvas = self.iface.mapCanvas()
                     prevMapTool = canvas.mapTool()
-                    dlg.show()
                     dlg.exec_()
                     if canvas.mapTool() != prevMapTool:
                         try:
