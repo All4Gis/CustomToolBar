@@ -51,7 +51,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         self.iface = iface
         self.hasChanged = False    
         self.userhome = os.path.expanduser('~')
-        self.filepath = self.userhome + '\.CustomToolBars'
+        self.filepath = self.userhome + '//.CustomToolBars'
         self.file = QtCore.QFile(self.filepath)
         self.searchBox.setPlaceholderText('Search...')
         
@@ -145,7 +145,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
     # Dialogo de ayuda
     def about(self):
         self.About = AboutDialog(self.iface)
-        self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
+        #self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
         return
     

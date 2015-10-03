@@ -13,7 +13,7 @@ name=Customize ToolBars
 qgisMinimumVersion=2.2
 description=Create customs Toolbars for Qgis.
 about=This plugin allows to create personalized tools, with the buttons the user desires. It is only necessary dragging from the list on the left and dropping in the list on the right, the tools that the user desires to add to any of the previously created toolbars.
-version=0.4
+version=0.5
 author=Francisco Raga Lopez
 email=franka1986@gmail.com
 
@@ -24,6 +24,9 @@ email=franka1986@gmail.com
 # Uncomment the following line and add your changelog entries:
 changelog=    
 	** General **
+	0.5:
+		- Add support for MAC,linux platforms (tickets #13321,#13324).
+		- Minor changes.
 	0.4:
 		- Add QMenu actions in plugin(for example MMQGIS actions).
 		- Minor Changes.

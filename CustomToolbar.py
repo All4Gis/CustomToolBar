@@ -48,13 +48,11 @@ class CustomToolbar:
     def __init__(self, iface):
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
-        locale = QSettings().value("locale/userLocale")[0:2]
+        locale = QSettings().value("locale//userLocale")[0:2]
         localePath = os.path.join(self.plugin_dir, 'i18n', 'CustomToolbar_{}.qm'.format(locale))
- 
         self.userhome = os.path.expanduser('~')
-        self.filepath = self.userhome + '\.CustomToolBars'
+        self.filepath = self.userhome + '//.CustomToolBars'
         self.file = QFile(self.filepath)
- 
         if os.path.exists(localePath):
             self.translator = QTranslator()
             self.translator.load(localePath)
@@ -71,13 +69,13 @@ class CustomToolbar:
         except:
             self.iface.messageBar().pushMessage("Error: ", "Error loading Processing Toolbox.", level=QgsMessageBar.CRITICAL, duration=3)
             None 
-            
-        try:
-            loadPlugin('mmqgis')
-            startPlugin('mmqgis')
-        except:
-            self.iface.messageBar().pushMessage("Error: ", "Error loading mmqgis.", level=QgsMessageBar.CRITICAL, duration=3)
-            None 
+ 
+        if os.path.exists(os.path.join(os.path.dirname(self.plugin_dir),'mmqgis')):
+                loadPlugin('mmqgis')
+                startPlugin('mmqgis')
+        #else:
+         #   self.iface.messageBar().pushMessage("Error: ", "Error loading mmqgis.", level=QgsMessageBar.CRITICAL, duration=3)
+             
               
         try:
             self.MyToolBars()
@@ -103,7 +101,7 @@ class CustomToolbar:
 
     def About(self):
         self.About = AboutDialog(self.iface)
-        self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
+        #self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
         return
     

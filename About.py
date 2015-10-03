@@ -20,6 +20,7 @@
  ***************************************************************************/
 """
 import os.path
+import subprocess
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
@@ -42,12 +43,22 @@ class AboutDialog(QtGui.QDialog, Ui_About):
         self.setupUi(self)
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__) 
-        self.video = self.plugin_dir + '\\example\\ExampleUse.mp4'
+        self.video = self.plugin_dir + '//example//ExampleUse.mp4'
     
     # Video de ejemplo
     def ShowVideo(self): 
-        try:
-            os.startfile(self.video, 'open')    
-        except:
+        if os.path.exists(self.video):
+             
+            if sys.platform.startswith('dar'):
+                subprocess.call(['open', self.video])
+            elif sys.platform.startswith('lin'):
+                subprocess.call(['xdg-open', self.video])
+            elif sys.platform.startswith('win'):
+                #subprocess.call([self.video])
+                os.startfile(self.video)
+            else:   
+                pass
+             
+        else:
             self.iface.messageBar().pushMessage("Error: ", "Could not open video file: " + self.video, level=QgsMessageBar.CRITICAL, duration=3) 
-        return
+            return
