@@ -30,6 +30,7 @@ from gui.generated.ui_CustomToolbar import Ui_CustomToolbarDialog
 from qgis.core   import QgsApplication
 from qgis.gui import *
 from qgis.gui import QgsMessageBar
+from utils.utils import *
 
 
 try:
@@ -144,8 +145,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
     
     # Dialogo de ayuda
     def about(self):
-        self.About = AboutDialog(self.iface)
-        #self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
+        self.About = AboutDialog(self.iface) 
         self.About.exec_()
         return
     
@@ -390,7 +390,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
                 (item.parent() or root).removeChild(item)
 
             if self.rename_btn.isEnabled():
-                self.DelToolBarIface(text)  # Borramos la barra de herramientas               
+                DelToolBarIface(text,self.iface)  # Borramos la barra de herramientas               
                 # Restauramos la lista de herramientas de Qgis.
                 state = self.saveWidgetState(self.ToolBars) 
                 self.PopulateQgisTools()
@@ -418,109 +418,15 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
             else:
                 return
         return
-    
-    # Borramos la herramienta
-    def DelToolBarIface(self, value):
-        toolbars = self.iface.mainWindow().findChildren(QToolBar)
-        for toolbar in toolbars:         
-            if toolbar.windowTitle() == value:
-                visible = toolbar.isVisible()
-                self.iface.mainWindow().removeToolBar(toolbar)
-                self.iface.mainWindow().update()
-                toolbar.setParent(None)
-                return visible
-      
-        return True
-
-        
+ 
     # Creamos la barra de herramientas.
     def CreateToolBar(self, item):
-        visible = self.DelToolBarIface(item.text(0))      
+        visible = DelToolBarIface(item.text(0),self.iface)      
         self.bar = self.iface.mainWindow().addToolBar(item.text(0))  # La anadimos al click derecho
         self.bar.setVisible(visible)
         return  
-        
  
-    # Metodo para obtener la accion del boton y anadirla a la barra nueva
-    def obtainAction(self, value):
-        # Barras de herramientas de Qgis
-        toolbars = self.iface.mainWindow().findChildren(QToolBar)
-        for toolbar in toolbars:
-            actions = toolbar.actions() 
-            for action in actions:
-                if isinstance(action, QWidgetAction):
-                    a = action.defaultWidget().actions()
-                    for b in a:
-                        if b.iconText() == value:
-                            return b
-                else:
-                    if action.iconText() == value:
-                        return action
-         
-        #Acciones de los menus
-        menubar = self.iface.mainWindow().menuBar()
-        #settrace()
-        for action in menubar.actions():
-            if action.menu():
-                for action in action.menu().actions():
-                    if action.menu():
-                        for actions in action.menu().actions():
-                            if actions.iconText() == value:
-                                return actions  
-                    else:  
-                        if action.iconText() == value:
-                            return action 
-            else:
-                if action.iconText() == value:
-                    return action
-                    
-    
-        # Obtencion de la herramienta en el listado de geoprocesos.
-        for providerName in Processing.algs.keys():
-            provider = Processing.algs[providerName]               
-            algs = provider.values()
-            for alg in algs:
-                if value == alg.name:
-                    action = QAction(QIcon(alg.getIcon()), alg.name, self)
-                    action.triggered.connect(lambda:self.executeAlgorithm(alg.name))
-                    return action  
-        return  
-    
-
-    def executeAlgorithm(self, value):
- 
-        for providerName in Processing.algs.keys():
-            provider = Processing.algs[providerName]               
-            algs = provider.values()
-            for alg in algs:
-                if value == alg.name:
-                    alg = Processing.getAlgorithm(alg.commandLineName())
-                    message = alg.checkBeforeOpeningParametersDialog()
-                    if message:
-                        dlg = MessageDialog()
-                        dlg.setTitle(self.tr('Missing dependency'))
-                        dlg.setMessage(self.tr('<h3>Missing dependency. This algorithm cannot '
-                                        'be run :-( </h3>\n%s') % message)
-                        dlg.exec_()
-                        return
-                    dlg = alg.getCustomParametersDialog()
-                    if not dlg:
-                        try:
-                            dlg = AlgorithmDialog(alg)
-                        except:
-                            self.iface.messageBar().pushMessage("Info: ", "Error loading Processing Toolbox.", level=QgsMessageBar.INFO, duration=3)  
-                            return
-                            
-                    canvas = self.iface.mapCanvas()
-                    prevMapTool = canvas.mapTool()
-                    dlg.exec_()
-                    if canvas.mapTool() != prevMapTool:
-                        try:
-                            canvas.mapTool().reset()
-                        except:
-                            pass
-                        canvas.setMapTool(prevMapTool)
-        return
+     
     #####################################################################################
     ################################    Save and Read    ################################
     #####################################################################################
@@ -566,7 +472,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         for i in range(0, count):
             child = item.child(i)
             child.write(datastream)
-            self.bar.addAction(self.obtainAction(child.text(0)))  
+            self.bar.addAction(obtainAction(child.text(0),self.iface))  
             self.save_item(child, datastream)
             
  

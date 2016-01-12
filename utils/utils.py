@@ -7,7 +7,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtGui import QToolBar, QToolButton, QWidgetAction
 from qgis.core import *
 from qgis.gui import QgsMessageBar
-from qgis.utils import loadPlugin, startPlugin 
+from qgis.utils import loadPlugin, startPlugin,available_plugins,isPluginLoaded  
 
 
 try:
@@ -18,36 +18,17 @@ try:
     from pydevd import *
 except:
     None
-
-# Creamos las toolbar al iniciar Qgis  
-
-def MyToolBars(iface):
  
-    userhome = os.path.expanduser('~')
-    filepath = userhome + '\.CustomToolBars'
-    file = QFile(filepath)
+#Carga de los plugins(evitamos errores).
+#Cargamos los que aun no se han cargado
 
-    file.open(QtCore.QIODevice.ReadOnly)         
-    datastream = QtCore.QDataStream(file)
-    num_childs = datastream.readUInt32()  
-    for i in range(0, num_childs):
-        item = QtGui.QTreeWidgetItem()
-        item.read(datastream)
-        bar = None
-        DelToolBarIface(item.text(0), iface)
-        bar = iface.mainWindow().addToolBar(item.text(0))
-        restore_item(datastream, item, bar, iface)
-        
-    file.close()
-    return 
+def ActivatePlugins(iface):
+    for plugin in available_plugins:
+        if not isPluginLoaded(plugin) and plugin !='CustomToolBar':
+            loadPlugin(plugin)
+            startPlugin(plugin)
+    return
 
-def restore_item(datastream, item, bar, iface):
-    num_childs = datastream.readUInt32()
-    for i in range(0, num_childs):
-        child = QtGui.QTreeWidgetItem()
-        child.read(datastream)
-        bar.addAction(obtainAction(child.text(0), iface))  
-        restore_item(datastream, child, bar, iface)
     
 # Metodo para obtener la accion del boton y anadirla a la barra nueva
 def obtainAction(value, iface):
@@ -139,11 +120,14 @@ def executeAlgorithm(value, iface):
 
 
 # Borramos la herramienta
-def DelToolBarIface(value, iface):
+def DelToolBarIface(value,iface):
     toolbars = iface.mainWindow().findChildren(QToolBar)
-    for toolbar in toolbars:
+    for toolbar in toolbars:         
         if toolbar.windowTitle() == value:
+            visible = toolbar.isVisible()
             iface.mainWindow().removeToolBar(toolbar)
             iface.mainWindow().update()
             toolbar.setParent(None)
-    return
+            return visible
+  
+    return True
