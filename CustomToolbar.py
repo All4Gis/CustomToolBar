@@ -87,7 +87,7 @@ class CustomToolbar:
 
     def About(self):
         self.About = AboutDialog(self.iface)
-        self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
+        #self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
     
     def run(self):
