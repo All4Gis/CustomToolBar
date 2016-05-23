@@ -47,7 +47,7 @@ class CustomToolbar:
         locale = QSettings().value("locale//userLocale")[0:2]
         localePath = os.path.join(self.plugin_dir, 'i18n', 'CustomToolbar_{}.qm'.format(locale))
         self.userhome = os.path.expanduser('~')
-        self.filepath = self.userhome + '//.CustomToolBars'
+        self.filepath = self.plugin_dir + '//.CustomToolBars'
         self.file = QFile(self.filepath)
         if os.path.exists(localePath):
             self.translator = QTranslator()
@@ -87,8 +87,8 @@ class CustomToolbar:
 
     def About(self):
         self.About = AboutDialog(self.iface)
+        self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
-        return
     
     def run(self):
         self.dlg = CustomToolbarDialog(self.iface)

@@ -22,9 +22,39 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="help_btn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Help</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <property name="topMargin">
-      <number>25</number>
+      <number>6</number>
      </property>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -459,7 +489,7 @@ padding: 2px;
   <customwidget>
    <class>QgsFilterLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>qgis.gui</header>
+   <header>qgsfilterlineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
@@ -505,8 +535,8 @@ padding: 2px;
    <slot>RenameToolBar()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>171</y>
+     <x>471</x>
+     <y>200</y>
     </hint>
     <hint type="destinationlabel">
      <x>435</x>
@@ -521,8 +551,8 @@ padding: 2px;
    <slot>NewToolBar()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>150</y>
+     <x>471</x>
+     <y>175</y>
     </hint>
     <hint type="destinationlabel">
      <x>437</x>
@@ -569,8 +599,8 @@ padding: 2px;
    <slot>ExpandQgis()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>25</x>
-     <y>213</y>
+     <x>36</x>
+     <y>245</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -585,8 +615,8 @@ padding: 2px;
    <slot>CollapseQgis()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>16</x>
-     <y>245</y>
+     <x>27</x>
+     <y>275</y>
     </hint>
     <hint type="destinationlabel">
      <x>2</x>
@@ -601,8 +631,8 @@ padding: 2px;
    <slot>ExpandMyTools()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>804</x>
-     <y>218</y>
+     <x>821</x>
+     <y>245</y>
     </hint>
     <hint type="destinationlabel">
      <x>819</x>
@@ -633,12 +663,28 @@ padding: 2px;
    <slot>Search(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>74</x>
-     <y>73</y>
+     <x>130</x>
+     <y>110</y>
     </hint>
     <hint type="destinationlabel">
      <x>111</x>
      <y>3</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>help_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>CustomToolbarDialog</receiver>
+   <slot>about()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>46</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>24</y>
     </hint>
    </hints>
   </connection>

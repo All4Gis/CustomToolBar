@@ -57,8 +57,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         self.searchBox.setPlaceholderText('Search...')
         
         self.restore = {}
- 
-        self.AddHelpButton()  # Boton de ayuda
   
         try:
             self.listMyToolBars()  # Herramientas Usuario
@@ -146,25 +144,8 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
     # Dialogo de ayuda
     def about(self):
         self.About = AboutDialog(self.iface) 
+        self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
-        return
-    
-    def AddHelpButton(self):
-        layout = QVBoxLayout()
-        toolBar = QToolBar(self)
-        toolBar.addAction(u"Help", self.about)
-        toolBar.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        toolBar.setStyleSheet("QToolBar {border-bottom: 0px solid grey }")
-        toolBar.setInputMethodHints(QtCore.Qt.ImhNone)
-        toolBar.setMovable(False)
-        toolBar.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
-        toolBar.setFloatable(False)
-        layout.addWidget(toolBar)
-        layout.setMargin(0)
-        layout.setSpacing(0)
-        layout.addStretch(0)
-        self.setLayout(layout)
-        return
     
     # Filtrado de las acciones en las herramientas de Qgis.
     def Search(self, text):
