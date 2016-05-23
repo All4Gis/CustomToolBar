@@ -144,7 +144,7 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
     # Dialogo de ayuda
     def about(self):
         self.About = AboutDialog(self.iface) 
-        self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
+        #self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
     
     # Filtrado de las acciones en las herramientas de Qgis.
