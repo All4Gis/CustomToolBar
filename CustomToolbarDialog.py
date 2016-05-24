@@ -144,7 +144,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
     # Dialogo de ayuda
     def about(self):
         self.About = AboutDialog(self.iface) 
-        #self.About.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint) 
         self.About.exec_()
     
     # Filtrado de las acciones en las herramientas de Qgis.
@@ -216,7 +215,6 @@ class CustomToolbarDialog(QtGui.QDialog, Ui_CustomToolbarDialog):
         for action in menubar.actions():
             self.addTreeItemMenu(parentItem=topitem,action=action)
  
-        
         # Geoprocesos (Processing ToolBox).
         groups = {}
         count = 0
