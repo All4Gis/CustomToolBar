@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui.resources\ui_CustomToolbar.ui'
 #
-# Created: Mon May 23 15:32:28 2016
+# Created: Tue May 24 18:37:54 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,6 +37,7 @@ class Ui_CustomToolbarDialog(object):
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.help_btn = QtGui.QPushButton(CustomToolbarDialog)
         self.help_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.help_btn.setStyleSheet(_fromUtf8("text-align:left;"))
         self.help_btn.setFlat(True)
         self.help_btn.setObjectName(_fromUtf8("help_btn"))
         self.horizontalLayout.addWidget(self.help_btn)
@@ -221,7 +222,7 @@ class Ui_CustomToolbarDialog(object):
 
     def retranslateUi(self, CustomToolbarDialog):
         CustomToolbarDialog.setWindowTitle(_translate("CustomToolbarDialog", "Create customs ToolBars", None))
-        self.help_btn.setText(_translate("CustomToolbarDialog", "Help", None))
+        self.help_btn.setText(_translate("CustomToolbarDialog", "About", None))
         self.pushButton.setToolTip(_translate("CustomToolbarDialog", "Expand all", None))
         self.pushButton_2.setToolTip(_translate("CustomToolbarDialog", "Collapse all", None))
         self.groupBox.setTitle(_translate("CustomToolbarDialog", "Qgis Tools", None))

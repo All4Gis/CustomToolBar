@@ -25,8 +25,11 @@ except:
 def ActivatePlugins(iface):
     for plugin in available_plugins:
         if not isPluginLoaded(plugin) and plugin !='CustomToolBar':
-            loadPlugin(plugin)
-            startPlugin(plugin)
+            try:
+                loadPlugin(plugin)
+                startPlugin(plugin)
+            except:
+                pass
     return
 
     
