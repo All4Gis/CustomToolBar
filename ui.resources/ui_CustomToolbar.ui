@@ -152,6 +152,9 @@
           <property name="toolTip">
            <string>Enter algorithm name to filter list</string>
           </property>
+          <property name="placeholderText">
+           <string>Search...</string>
+          </property>
          </widget>
         </item>
         <item>

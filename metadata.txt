@@ -1,29 +1,16 @@
-# This file contains metadata for your plugin. Beginning
-# with version 1.8 this is the preferred way to supply information about a
-# plugin. The current method of embedding metadata in __init__.py will
-# be supported until version 2.0
-
-# This file should be included when you package your plugin.
-
-# Mandatory items:
-
-
 [general]
 name=Customize ToolBars
-qgisMinimumVersion=2.2
+qgisMinimumVersion=3.4.1
 description=Create customs Toolbars for Qgis.
 about=This plugin allows to create personalized tools, with the buttons the user desires. It is only necessary dragging from the list on the left and dropping in the list on the right, the tools that the user desires to add to any of the previously created toolbars.
-version=0.8
+version=0.9
 author=Francisco Raga
 email=franka1986@gmail.com
 
-# end of mandatory metadata
-
-# Optional items:
-
-# Uncomment the following line and add your changelog entries:
 changelog=    
 	** General **
+	0.9:
+		- QGIS 3 start migrate
 	0.8:
 		- Fixed error on a GNU/Linux machine (About button).
 		- Fixed error restoring toolbars).
@@ -52,18 +39,14 @@ changelog=
 	    - Minor changes.
 	0.0:
 		-Start of plugin 
- 
-# tags are comma separated with spaces allowed
+
 tags=productivity,actions,menu,tool,toolbars,style,custom,create,work flow,configuration,processing
 
-homepage=http://hub.qgis.org/projects/rt6avc2ia
-tracker=http://hub.qgis.org/projects/rt6avc2ia/issues
+homepage=https://github.com/All4Gis/CustomToolBar
+tracker=https://github.com/All4Gis/CustomToolBar/issues
 repository=https://github.com/All4Gis/CustomToolBar
 icon=images/icon.png
 
-# experimental flag
 experimental=False
-
-# deprecated flag (applies to the whole plugin, not just a single version
 deprecated=False
 

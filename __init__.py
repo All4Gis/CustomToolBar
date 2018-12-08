@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys
 
-# try:
-#     sys.path.append("C:/eclipse/plugins/org.python.pydev_4.3.0.201508182223/pysrc")
-# except:
-#     None
-    
+try:
+    sys.path.append(
+        "D:\eclipse\plugins\org.python.pydev.core_7.0.3.201811082356\pysrc")
+    from pydevd import *
+except ImportError:
+    None
+
+
 def classFactory(iface):
-    from CustomToolbar import CustomToolbar
+    from .CustomToolbar import CustomToolbar
     return CustomToolbar(iface)
