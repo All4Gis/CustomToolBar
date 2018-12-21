@@ -1,0 +1,6 @@
+.project
+.pydevproject
+Compile.bat
+*.pyc
+.settings/
+__pycache__/

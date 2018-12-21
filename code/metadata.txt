@@ -1,0 +1,54 @@
+[general]
+name=Customize ToolBars
+qgisMinimumVersion=3.4.1
+description=Create customs Toolbars for Qgis.
+about=This plugin allows to create personalized tools, with the buttons the user desires. It is only necessary dragging from the list on the left and dropping in the list on the right, the tools that the user desires to add to any of the previously created toolbars.
+version=1.0
+author=Francisco Raga
+email=franka1986@gmail.com
+
+changelog=    
+	** General **
+	1.0:
+		- Add Processing algoritms
+	0.9:
+		- QGIS 3 start migrate
+	0.8:
+		- Fixed error on a GNU/Linux machine (About button).
+		- Fixed error restoring toolbars).
+	0.7:
+		- Fixed error on a GNU/Linux machine (issue #1).
+	0.6:
+		- Support for all QMenu actions(Control activate plugins).
+		- Internal code changes.
+	0.5:
+		- Add support for MAC,linux platforms (tickets #13321,#13324).
+		- Minor changes.
+	0.4:
+		- Add QMenu actions in plugin(for example MMQGIS actions).
+		- Minor Changes.
+	0.3:
+	    - Add search actions.
+	    - Minor changes.
+	0.2:
+	    - Obtain missing Qgis Actions.
+    	- Add Processing Toolbox actions.
+	0.1:
+	 	- Added new buttons (Expand all and Collapse all).
+	    - Added missing data in "metadata.txt".(ticket #12925 closed)
+	    - Restored visibility tools when change/save toolbars.
+	    - Save expand state and restored in Qgis toolbars list.
+	    - Minor changes.
+	0.0:
+		-Start of plugin 
+
+tags=productivity,actions,menu,tool,toolbars,style,custom,create,work flow,configuration,processing
+
+homepage=https://github.com/All4Gis/CustomToolBar
+tracker=https://github.com/All4Gis/CustomToolBar/issues
+repository=https://github.com/All4Gis/CustomToolBar
+icon=images/icon.png
+
+experimental=False
+deprecated=False
+

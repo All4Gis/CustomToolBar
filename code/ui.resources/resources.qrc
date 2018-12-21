@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="img" >
+        <file>../images/icon.png</file>
+		<file>../images/info.png</file>
+		<file>../images/expand.png</file>
+		<file>../images/collapse.png</file>
+    </qresource>
+</RCC>
