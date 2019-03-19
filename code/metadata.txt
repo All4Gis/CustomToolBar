@@ -29,17 +29,17 @@ changelog=
 		- Add QMenu actions in plugin(for example MMQGIS actions).
 		- Minor Changes.
 	0.3:
-	    - Add search actions.
-	    - Minor changes.
+		- Add search actions.
+		- Minor changes.
 	0.2:
-	    - Obtain missing Qgis Actions.
-    	- Add Processing Toolbox actions.
+		- Obtain missing Qgis Actions.
+		- Add Processing Toolbox actions.
 	0.1:
-	 	- Added new buttons (Expand all and Collapse all).
-	    - Added missing data in "metadata.txt".(ticket #12925 closed)
-	    - Restored visibility tools when change/save toolbars.
-	    - Save expand state and restored in Qgis toolbars list.
-	    - Minor changes.
+		- Added new buttons (Expand all and Collapse all).
+		- Added missing data in "metadata.txt".(ticket #12925 closed)
+		- Restored visibility tools when change/save toolbars.
+		- Save expand state and restored in Qgis toolbars list.
+		- Minor changes.
 	0.0:
 		-Start of plugin 
 
