@@ -3,6 +3,10 @@ Create customs Toolbars for Qgis.
 
 This plugin allows to create personalized tools, with the buttons the user desires. It is only necessary dragging from the list on the left and dropping in the list on the right, the tools that the user desires to add to any of the previously created toolbars.
 
+
+Click on the image to see the demo video.
+[![Watch the video (Spanish)](https://i.imgur.com/zgE2vxK.png)](https://youtu.be/w730yIknO1g "CustomToolbars")
+
 ## Donations
 Want to buy me a beer (or gadget)? Please use Paypal button on the project page, [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/all4gis) , or contact me directly.
  
