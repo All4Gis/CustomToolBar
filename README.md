@@ -5,7 +5,8 @@ This plugin allows to create personalized tools, with the buttons the user desir
 
 
 Click on the image to see the demo video.
-[![Watch the video (Spanish)](https://i.imgur.com/zgE2vxK.png)](https://youtu.be/w730yIknO1g "CustomToolbars")
+
+[![Watch the video (Spanish)](https://i.imgur.com/8xvyUlml.png)](https://youtu.be/w730yIknO1g "CustomToolbars")
 
 ## Donations
 Want to buy me a beer (or gadget)? Please use Paypal button on the project page, [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/all4gis) , or contact me directly.
