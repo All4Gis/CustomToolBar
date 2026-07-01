@@ -1,3 +1,10 @@
+> **Important**
+>
+> This feature has been integrated into the **QGIS core** since **version 4**.
+>
+> **Reference:**
+> https://github.com/qgis/QGIS-Documentation/issues/10685
+
 # CustomToolBar
 Create customs Toolbars for Qgis.
 
